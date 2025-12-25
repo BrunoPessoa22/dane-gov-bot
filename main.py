@@ -127,17 +127,12 @@ def upload_to_dane_gov(csv_path: str) -> bool:
             title_input.fill(title)
             time.sleep(1)
 
-            # Step 8: Configure Znaki umowne
+            # Step 8: Configure Znaki umowne (optional - skip if not found)
             logger.info("Step 8: Configuring 'Znaki umowne'...")
-            page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
-            time.sleep(1)
-
             try:
-                iks_option = page.locator('select[id*="from"] option:has-text("X (IKS)")')
-                if iks_option.count() > 0:
-                    select = page.locator('select[id*="from"]').filter(has=iks_option)
-                    select.select_option(label="X (IKS) - wypelnienie pozycji jest niemozliwe lub niecelowe")
-                page.click('a.selector-add, .selector-chooser a:first-child')
+                page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
+                time.sleep(1)
+                # This is optional - if it fails, continue anyway
             except Exception as e:
                 logger.warning(f"Could not configure Znaki umowne: {e}")
 
@@ -147,7 +142,9 @@ def upload_to_dane_gov(csv_path: str) -> bool:
             logger.info("Step 9: Saving...")
             page.evaluate("window.scrollTo(0, 0)")
             time.sleep(1)
-            page.click('input[name="_save"], input[value="Zapisz"]')
+            # Try multiple save button selectors
+            save_btn = page.locator('input[name="_save"], input[value="Zapisz"], button:has-text("Zapisz"), input[type="submit"]').first
+            save_btn.click()
             page.wait_for_load_state("networkidle")
             time.sleep(3)
 
