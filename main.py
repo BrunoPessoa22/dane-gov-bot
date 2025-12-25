@@ -52,32 +52,30 @@ def upload_to_dane_gov(csv_path: str) -> bool:
             page.goto("https://dane.gov.pl/pl/user/login")
             time.sleep(5)  # Wait for JS to load
 
-            # Handle cookie consent if present
+            # Close cookie dialog
             try:
-                cookie_btn = page.locator('button:has-text("Akceptuj"), button:has-text("Accept"), button:has-text("Zgadzam")')
-                if cookie_btn.count() > 0:
-                    cookie_btn.first.click()
-                    time.sleep(2)
-                    logger.info("Accepted cookies")
+                page.locator('button:has-text("Zamknij okno dialogowe")').first.click(timeout=5000)
+                time.sleep(2)
             except:
                 pass
 
-            # Wait for login form
-            page.wait_for_selector('input[type="email"], input[name="email"], #email, input[placeholder*="email"], input[placeholder*="Email"]', timeout=30000)
+            # Click "Wybierz" link for email login (second link)
+            wybierz_links = page.locator('a:has-text("Wybierz")').all()
+            if len(wybierz_links) >= 2:
+                wybierz_links[1].click()  # Second link = email login
+                logger.info("Selected email login method")
+            time.sleep(3)
 
             # Fill email
-            email_input = page.locator('input[type="email"], input[name="email"], #email, input[placeholder*="email"]').first
-            email_input.fill(EMAIL)
+            page.fill('input[name="email"]', EMAIL)
             time.sleep(1)
 
             # Fill password
-            password_input = page.locator('input[type="password"], input[name="password"], #password').first
-            password_input.fill(PASSWORD)
+            page.fill('input[name="password"]', PASSWORD)
             time.sleep(1)
 
-            # Click login
-            login_btn = page.locator('button[type="submit"], input[type="submit"], button:has-text("Zaloguj"), button:has-text("Login")').first
-            login_btn.click()
+            # Click login button
+            page.click('button[type="submit"]')
             time.sleep(5)
             logger.info("Login successful")
 
