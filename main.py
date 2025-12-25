@@ -127,12 +127,23 @@ def upload_to_dane_gov(csv_path: str) -> bool:
             title_input.fill(title)
             time.sleep(1)
 
-            # Step 8: Configure Znaki umowne (optional - skip if not found)
+            # Step 8: Configure Znaki umowne
             logger.info("Step 8: Configuring 'Znaki umowne'...")
             try:
                 page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
+                time.sleep(2)
+
+                # Click on "X (Iks)" option in the left list to select it
+                x_option = page.locator('option:has-text("X (Iks)")').first
+                x_option.click()
                 time.sleep(1)
-                # This is optional - if it fails, continue anyway
+                logger.info("Selected X (Iks) option")
+
+                # Click the right arrow to move it to selected
+                right_arrow = page.locator('a.selector-add, a[title*="Wybierz"], .selector-chooser a').first
+                right_arrow.click()
+                time.sleep(1)
+                logger.info("Moved X (Iks) to selected")
             except Exception as e:
                 logger.warning(f"Could not configure Znaki umowne: {e}")
 
