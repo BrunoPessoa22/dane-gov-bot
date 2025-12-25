@@ -50,13 +50,35 @@ def upload_to_dane_gov(csv_path: str) -> bool:
             # Step 1: Login
             logger.info("Step 1: Logging in...")
             page.goto("https://dane.gov.pl/pl/user/login")
-            page.wait_for_load_state("networkidle")
+            time.sleep(5)  # Wait for JS to load
 
-            page.fill('input[name="email"], input[type="email"]', EMAIL)
-            page.fill('input[name="password"], input[type="password"]', PASSWORD)
-            page.click('button[type="submit"], input[type="submit"]')
-            page.wait_for_load_state("networkidle")
-            time.sleep(2)
+            # Handle cookie consent if present
+            try:
+                cookie_btn = page.locator('button:has-text("Akceptuj"), button:has-text("Accept"), button:has-text("Zgadzam")')
+                if cookie_btn.count() > 0:
+                    cookie_btn.first.click()
+                    time.sleep(2)
+                    logger.info("Accepted cookies")
+            except:
+                pass
+
+            # Wait for login form
+            page.wait_for_selector('input[type="email"], input[name="email"], #email, input[placeholder*="email"], input[placeholder*="Email"]', timeout=30000)
+
+            # Fill email
+            email_input = page.locator('input[type="email"], input[name="email"], #email, input[placeholder*="email"]').first
+            email_input.fill(EMAIL)
+            time.sleep(1)
+
+            # Fill password
+            password_input = page.locator('input[type="password"], input[name="password"], #password').first
+            password_input.fill(PASSWORD)
+            time.sleep(1)
+
+            # Click login
+            login_btn = page.locator('button[type="submit"], input[type="submit"], button:has-text("Zaloguj"), button:has-text("Login")').first
+            login_btn.click()
+            time.sleep(5)
             logger.info("Login successful")
 
             # Step 2: Go to Admin Panel
@@ -138,6 +160,9 @@ def upload_to_dane_gov(csv_path: str) -> bool:
             logger.error(f"Upload failed: {e}")
             # Take screenshot on error
             page.screenshot(path="error.png")
+            # Log page content for debugging
+            logger.error(f"Page URL: {page.url}")
+            logger.error(f"Page title: {page.title()}")
             return False
 
         finally:
