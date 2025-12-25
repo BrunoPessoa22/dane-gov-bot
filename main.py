@@ -116,7 +116,7 @@ def upload_to_dane_gov(csv_path: str) -> bool:
 
             # Step 6: Upload file
             logger.info("Step 6: Uploading CSV file...")
-            file_input = page.locator('input[type="file"]')
+            file_input = page.locator('input[type="file"][name="file"]')
             file_input.set_input_files(csv_path)
             time.sleep(2)
 
