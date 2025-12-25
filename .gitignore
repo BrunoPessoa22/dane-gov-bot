@@ -1,0 +1,22 @@
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+
+# Logs and screenshots
+logs/
+*.log
+*.png
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Local files
+# Keep CSV files in repo
