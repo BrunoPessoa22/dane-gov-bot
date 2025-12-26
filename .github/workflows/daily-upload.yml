@@ -2,12 +2,8 @@ name: Daily Upload to dane.gov.pl
 
 on:
   schedule:
-    # 9:00 AM UTC every day (primary)
+    # 9:00 AM UTC every day
     - cron: '0 9 * * *'
-    # 9:15 AM UTC backup in case first one is delayed
-    - cron: '15 9 * * *'
-    # 9:30 AM UTC second backup
-    - cron: '30 9 * * *'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
@@ -15,47 +11,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if already ran today
-        id: check
-        run: |
-          # Get today's date
-          TODAY=$(date -u +%Y-%m-%d)
-          echo "today=$TODAY" >> $GITHUB_OUTPUT
-
-          # Check if successful run exists today (skip check for manual triggers)
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            RUNS=$(gh run list --workflow=daily-upload.yml --status=success --created=>=$TODAY --json createdAt -q 'length' 2>/dev/null || echo "0")
-            if [ "$RUNS" -gt "0" ]; then
-              echo "skip=true" >> $GITHUB_OUTPUT
-              echo "Already uploaded today, skipping..."
-            else
-              echo "skip=false" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "skip=false" >> $GITHUB_OUTPUT
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
-
       - name: Checkout code
-        if: steps.check.outputs.skip != 'true'
         uses: actions/checkout@v4
 
       - name: Set up Python
-        if: steps.check.outputs.skip != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
-        if: steps.check.outputs.skip != 'true'
         run: |
           pip install playwright python-dotenv
           playwright install chromium
           playwright install-deps chromium
 
       - name: Run upload
-        if: steps.check.outputs.skip != 'true'
         env:
           DANE_GOV_EMAIL: ${{ secrets.DANE_GOV_EMAIL }}
           DANE_GOV_PASSWORD: ${{ secrets.DANE_GOV_PASSWORD }}
