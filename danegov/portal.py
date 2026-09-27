@@ -76,8 +76,24 @@ class Portal:
     def harvester_active(self, institution_id: int) -> bool:
         return any(d.harvested for d in self.datasets(institution_id))
 
+    def resource(self, resource_id: str) -> PortalResource:
+        """One resource by id. Unlike the listings, this is available right after upload."""
+        item = self._get_json(f"/resources/{resource_id}")["data"]
+        attributes = item.get("attributes", {})
+        dataset = item.get("relationships", {}).get("dataset", {}).get("data") or {}
+        return PortalResource(
+            id=str(item["id"]),
+            dataset_id=str(dataset.get("id", "")),
+            title=attributes.get("title", "").strip(),
+            created=attributes["created"],
+        )
+
     def resources_for_day(self, institution_id: int, day: date) -> list[PortalResource]:
-        """Resources whose title ends with the day's date, newest first."""
+        """Resources whose title ends with the day's date, newest first.
+
+        Listings come from a search index that lags uploads by hours, so an
+        empty result does not prove the day is missing.
+        """
         suffix = day.isoformat()
         found: list[PortalResource] = []
         for dataset in self.datasets(institution_id):

@@ -28,8 +28,9 @@ class PriceState(BaseModel):
 
 class PublishedDay(BaseModel):
     resource_id: str
-    dataset_id: str
-    verified_at: datetime
+    dataset_id: str | None = None
+    uploaded_at: datetime | None = None
+    verified_at: datetime | None = None
 
 
 class PublishedLog(BaseModel):

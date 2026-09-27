@@ -8,6 +8,7 @@ then swaps in the day's file and title.
 from __future__ import annotations
 
 import logging
+import re
 import time
 from pathlib import Path
 
@@ -106,9 +107,20 @@ def _save(page: Page) -> None:
         raise UploadError(f"admin rejected the form: {errors.first.inner_text().strip()}")
 
 
-def upload_csv(
-    csv_path: Path, title: str, email: str, password: str, headless: bool = True
-) -> None:
+def _new_resource_id(page: Page, title: str) -> str:
+    """Id of the newest resource with this title (the admin list is newest first)."""
+    page.goto(RESOURCES_URL)
+    page.wait_for_load_state("networkidle")
+    for link in page.locator('a[href*="/resources/resource/"][href*="/change"]').all()[:10]:
+        if link.inner_text().strip() == title:
+            match = re.search(r"/resources/resource/(\d+)/change", link.get_attribute("href") or "")
+            if match:
+                return match.group(1)
+    raise UploadError(f"saved, but no resource titled {title!r} in the admin list")
+
+
+def upload_csv(csv_path: Path, title: str, email: str, password: str, headless: bool = True) -> str:
+    """Upload the file as a new resource and return its id."""
     if not csv_path.exists():
         raise UploadError(f"CSV not found: {csv_path}")
     with sync_playwright() as playwright:
@@ -126,8 +138,11 @@ def upload_csv(
             _fill_form(page, csv_path, title)
             step = "save"
             _save(page)
+            step = "find new resource"
+            resource_id = _new_resource_id(page, title)
         except PlaywrightError as exc:
             raise UploadError(f"browser step '{step}' failed at {page.url}: {exc}") from exc
         finally:
             browser.close()
-    logger.info("uploaded", extra={"file": csv_path.name, "title": title})
+    logger.info("uploaded", extra={"file": csv_path.name, "title": title, "resource": resource_id})
+    return resource_id

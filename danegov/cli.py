@@ -33,7 +33,7 @@ from danegov.harvester import build_xml, md5_hex, published_days
 from danegov.logs import setup_logging
 from danegov.models import DaneGovError
 from danegov.notify import compose, send
-from danegov.portal import Portal
+from danegov.portal import Portal, PortalError, PortalResource
 from danegov.scrape import price_inconsistencies, scrape_units
 from danegov.state import (
     PublishedDay,
@@ -158,28 +158,53 @@ def cmd_build(args: argparse.Namespace, summary: dict[str, Any]) -> None:
     config.MD5_PATH.write_text(md5_hex(xml), encoding="ascii")
 
 
+def decide_upload(
+    *,
+    force: bool,
+    recorded: PublishedDay | None,
+    listed: list[PortalResource],
+    mode: str,
+    harvester: bool | None,
+    now_utc: datetime,
+) -> tuple[bool, str]:
+    """Whether the browser bot uploads today, and why.
+
+    Our own record comes first: portal listings lag uploads by hours, so a
+    retry slot that trusted them alone would upload the same day twice.
+    """
+    if force:
+        return True, "forced by manual run"
+    if recorded is not None:
+        return False, f"already uploaded (resource {recorded.resource_id})"
+    if listed:
+        return False, f"already on dane.gov.pl (resource {listed[0].id})"
+    if mode == "harvester":
+        return False, "harvester mode"
+    if mode == "bot":
+        return True, "bot mode"
+    if not harvester:
+        return True, "harvester not active yet"
+    if now_utc.hour >= config.HARVEST_FALLBACK_UTC_HOUR:
+        return True, "harvester active but today's resource missing: fallback upload"
+    return False, "harvester active, waiting for the daily import"
+
+
 def cmd_plan_upload(args: argparse.Namespace, summary: dict[str, Any]) -> None:
     today = _today()
     mode = _delivery_mode()
-    now_utc = datetime.now(timezone.utc)
+    recorded = load_published(config.PUBLISHED_PATH).days.get(today)
     with _http() as client:
         portal = Portal(client)
-        existing = portal.resources_for_day(config.INSTITUTION_ID, today)
+        listed = portal.resources_for_day(config.INSTITUTION_ID, today)
         harvester = portal.harvester_active(config.INSTITUTION_ID) if mode == "auto" else None
-    if args.force:
-        upload, reason = True, "forced by manual run"
-    elif existing:
-        upload, reason = False, f"already on dane.gov.pl (resource {existing[0].id})"
-    elif mode == "harvester":
-        upload, reason = False, "harvester mode"
-    elif mode == "bot":
-        upload, reason = True, "bot mode"
-    elif not harvester:
-        upload, reason = True, "harvester not active yet"
-    elif now_utc.hour >= config.HARVEST_FALLBACK_UTC_HOUR:
-        upload, reason = True, "harvester active but today's resource missing: fallback upload"
-    else:
-        upload, reason = False, "harvester active, waiting for the daily import"
+    upload, reason = decide_upload(
+        force=args.force,
+        recorded=recorded,
+        listed=listed,
+        mode=mode,
+        harvester=harvester,
+        now_utc=datetime.now(timezone.utc),
+    )
     summary["upload"] = {"planned": upload, "reason": reason, "mode": mode, "harvester": harvester}
     logger.info("upload plan", extra={"upload": upload, "reason": reason, "mode": mode})
     _github_output(upload="true" if upload else "false")
@@ -188,14 +213,18 @@ def cmd_plan_upload(args: argparse.Namespace, summary: dict[str, Any]) -> None:
 def cmd_upload(args: argparse.Namespace, summary: dict[str, Any]) -> None:
     today = _today()
     csv_path = config.CSV_DIR / csv_filename(today)
-    upload_csv(
+    resource_id = upload_csv(
         csv_path,
         resource_title(today),
         email=_env("DANE_GOV_EMAIL"),
         password=_env("DANE_GOV_PASSWORD"),
         headless=not args.headed,
     )
-    summary.setdefault("upload", {})["done"] = True
+    # Recorded before verification so a retry slot never uploads the day again.
+    log = load_published(config.PUBLISHED_PATH)
+    log.days[today] = PublishedDay(resource_id=resource_id, uploaded_at=datetime.now(timezone.utc))
+    save_published(log, config.PUBLISHED_PATH)
+    summary.setdefault("upload", {}).update(done=True, resource_id=resource_id)
 
 
 def _describe_difference(local: bytes, remote: bytes) -> str:
@@ -211,19 +240,35 @@ def _describe_difference(local: bytes, remote: bytes) -> str:
     return "same text, different bytes (encoding or line endings)"
 
 
+def _find_todays_resource(
+    portal: Portal, today: date, recorded: PublishedDay | None, wait_seconds: int
+) -> PortalResource | None:
+    deadline = time.monotonic() + wait_seconds
+    while True:
+        try:
+            if recorded is not None:
+                return portal.resource(recorded.resource_id)
+            listed = portal.resources_for_day(config.INSTITUTION_ID, today)
+            if listed:
+                return listed[0]
+        except PortalError:
+            if time.monotonic() >= deadline:
+                raise
+        if time.monotonic() >= deadline:
+            return None
+        time.sleep(15)
+
+
 def cmd_verify(args: argparse.Namespace, summary: dict[str, Any]) -> None:
     today = _today()
     local = (config.CSV_DIR / csv_filename(today)).read_bytes()
+    log = load_published(config.PUBLISHED_PATH)
+    recorded = log.days.get(today)
     uploaded_now = bool(summary.get("upload", {}).get("done"))
-    deadline = time.monotonic() + (180 if uploaded_now else 0)
     with _http() as client:
         portal = Portal(client)
-        while True:
-            resources = portal.resources_for_day(config.INSTITUTION_ID, today)
-            if resources or time.monotonic() >= deadline:
-                break
-            time.sleep(15)
-        if not resources:
+        resource = _find_todays_resource(portal, today, recorded, 180 if uploaded_now else 0)
+        if resource is None:
             waiting_for_harvest = not summary.get("upload", {}).get("planned", False) and (
                 datetime.now(timezone.utc).hour < config.HARVEST_DEADLINE_UTC_HOUR
             )
@@ -232,30 +277,30 @@ def cmd_verify(args: argparse.Namespace, summary: dict[str, Any]) -> None:
                 logger.info("waiting for the harvester to import today's file")
                 return
             raise VerifyError(f"dane.gov.pl has no resource for {today.isoformat()}")
-        latest = resources[0]
-        remote = portal.download(latest.id)
+        if not resource.title.endswith(today.isoformat()):
+            raise VerifyError(f"resource {resource.id} is titled {resource.title!r}, not today's")
+        remote = portal.download(resource.id)
     if remote != local:
         raise VerifyError(
-            f"the file on dane.gov.pl ({latest.web_url}) is not today's file:"
+            f"the file on dane.gov.pl ({resource.web_url}) is not today's file:"
             f" {_describe_difference(local, remote)}"
         )
-    log = load_published(config.PUBLISHED_PATH)
-    previous = log.days.get(today)
-    newly = previous is None or previous.resource_id != latest.id
+    newly = recorded is None or recorded.verified_at is None or recorded.resource_id != resource.id
     if newly:
         log.days[today] = PublishedDay(
-            resource_id=latest.id,
-            dataset_id=latest.dataset_id,
+            resource_id=resource.id,
+            dataset_id=resource.dataset_id,
+            uploaded_at=recorded.uploaded_at if recorded else None,
             verified_at=datetime.now(timezone.utc),
         )
         save_published(log, config.PUBLISHED_PATH)
     summary["verify"] = {
         "status": "ok",
-        "resource_id": latest.id,
-        "resource_url": latest.web_url,
+        "resource_id": resource.id,
+        "resource_url": resource.web_url,
         "newly_verified": newly,
     }
-    logger.info("verified on dane.gov.pl", extra={"resource": latest.id, "new": newly})
+    logger.info("verified on dane.gov.pl", extra={"resource": resource.id, "new": newly})
 
 
 def cmd_notify(args: argparse.Namespace, summary: dict[str, Any]) -> None:

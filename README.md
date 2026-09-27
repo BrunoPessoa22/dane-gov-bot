@@ -43,6 +43,10 @@ e-mail to NOTIFY_EMAILS (success once a day, every failure)
   uploads until dane.gov.pl lists an XML-harvested dataset for the institution, then the
   harvester takes over and the bot only uploads as a fallback if the day is still missing
   at 09:00 UTC. `bot` / `harvester` force one path.
+- **Verification by id:** dane.gov.pl's listings come from a search index that lags
+  uploads by hours, so the bot records each uploaded resource id in
+  `state/published.json`, verifies that resource directly, and never uploads a recorded
+  day twice.
 - **Checks that stop publication** (and send a failure e-mail): a table missing or
   renamed column, a table shrinking below its minimum size, an unparseable price or
   status, a duplicate unit number, a file on dane.gov.pl that differs from the day's file.
