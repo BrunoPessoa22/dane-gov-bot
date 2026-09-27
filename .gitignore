@@ -1,8 +1,12 @@
 # Environment
 .env
 venv/
+.venv/
 __pycache__/
 *.pyc
+
+# Per-run scratch output
+run/
 
 # Logs and screenshots
 logs/
@@ -17,6 +21,3 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
-
-# Local files
-# Keep CSV files in repo

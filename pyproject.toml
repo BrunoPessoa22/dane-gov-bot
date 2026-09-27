@@ -1,0 +1,19 @@
+[project]
+name = "dane-gov-bot"
+version = "2.0.0"
+description = "Daily publication of Apartamenty Matejki prices to dane.gov.pl"
+requires-python = ">=3.12"
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+extend-exclude = "venv"
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip = ["venv"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

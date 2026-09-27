@@ -1,3 +1,5 @@
-# Dane.gov.pl Uploader Dependencies
-playwright>=1.40.0
-python-dotenv>=1.0.0
+beautifulsoup4==4.13.5
+httpx==0.28.1
+playwright==1.57.0
+pydantic==2.11.9
+tzdata==2025.2
