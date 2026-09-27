@@ -1,0 +1,143 @@
+name: Daily dane.gov.pl publication
+
+on:
+  schedule:
+    # UTC. The first slot builds the new Warsaw day's file before dane.gov.pl's
+    # automatic import (~05:50 UTC); the others are retries and do nothing once
+    # the day is published and verified. Keep in sync with SCHEDULE_UTC in
+    # danegov/config.py (checked by tests/test_workflow.py).
+    - cron: '17 23 * * *'
+    - cron: '17 2 * * *'
+    - cron: '17 5 * * *'
+    - cron: '17 9 * * *'
+    - cron: '17 13 * * *'
+    - cron: '17 17 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Rebuild today's file from the website and upload it again
+        type: boolean
+        default: false
+
+concurrency:
+  group: daily-publication
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+      summary: ${{ steps.summary.outputs.b64 }}
+    env:
+      CI: "true"
+      DELIVERY_MODE: ${{ vars.DELIVERY_MODE }}
+      FORCE: ${{ inputs.force && '--force' || '' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Build today's file from the website
+        id: build
+        run: python -m danegov build $FORCE
+
+      - name: Decide whether the browser bot uploads
+        id: plan
+        run: python -m danegov plan-upload $FORCE
+
+      - name: Install browser
+        if: steps.plan.outputs.upload == 'true'
+        run: python -m playwright install --with-deps chromium
+
+      - name: Upload through the dane.gov.pl admin panel
+        if: steps.plan.outputs.upload == 'true'
+        env:
+          DANE_GOV_EMAIL: ${{ secrets.DANE_GOV_EMAIL }}
+          DANE_GOV_PASSWORD: ${{ secrets.DANE_GOV_PASSWORD }}
+        run: python -m danegov upload
+
+      - name: Verify dane.gov.pl serves today's file
+        run: python -m danegov verify
+
+      - name: Commit files and price history
+        id: commit
+        if: always() && steps.build.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public state
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit --quiet -m "chore(data): publish prices $(TZ=Europe/Warsaw date +%F)"
+          for attempt in 1 2 3; do
+            if git pull --rebase --quiet && git push --quiet; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
+
+      - name: Hand the run summary to the notify job
+        id: summary
+        if: always()
+        run: |
+          if [ -f run/summary.json ]; then
+            echo "b64=$(base64 -w0 run/summary.json)" >> "$GITHUB_OUTPUT"
+          fi
+
+  pages:
+    # Serves public/ (daily CSVs, dane-gov.xml, dane-gov.md5) for the XML harvester.
+    needs: publish
+    if: always() && needs.publish.outputs.changed == 'true'
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+      - id: deploy
+        uses: actions/deploy-pages@v5
+
+  notify:
+    needs: [publish, pages]
+    if: always()
+    runs-on: ubuntu-24.04
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: E-mail the outcome
+        env:
+          SUMMARY_B64: ${{ needs.publish.outputs.summary }}
+          FAILED_JOB: ${{ needs.publish.result != 'success' && 'publish' || (needs.pages.result == 'failure' && 'pages' || '') }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_EMAILS: ${{ secrets.NOTIFY_EMAILS }}
+        run: python -m danegov notify --outcome "$([ -z "$FAILED_JOB" ] && echo success || echo failure)"
