@@ -7,7 +7,7 @@ delivered (browser upload or XML harvester).
 from __future__ import annotations
 
 import logging
-from datetime import date, datetime
+from datetime import datetime
 from typing import Any
 
 import httpx
@@ -87,32 +87,6 @@ class Portal:
             title=attributes.get("title", "").strip(),
             created=attributes["created"],
         )
-
-    def resources_for_day(self, institution_id: int, day: date) -> list[PortalResource]:
-        """Resources whose title ends with the day's date, newest first.
-
-        Listings come from a search index that lags uploads by hours, so an
-        empty result does not prove the day is missing.
-        """
-        suffix = day.isoformat()
-        found: list[PortalResource] = []
-        for dataset in self.datasets(institution_id):
-            payload = self._get_json(
-                f"/datasets/{dataset.id}/resources", {"per_page": 20, "sort": "-created"}
-            )
-            for item in payload["data"]:
-                attributes = item.get("attributes", {})
-                title = attributes.get("title", "").strip()
-                if title.endswith(suffix):
-                    found.append(
-                        PortalResource(
-                            id=str(item["id"]),
-                            dataset_id=dataset.id,
-                            title=title,
-                            created=attributes["created"],
-                        )
-                    )
-        return sorted(found, key=lambda r: r.created, reverse=True)
 
     def download(self, resource_id: str) -> bytes:
         url = f"https://api.dane.gov.pl/resources/{resource_id}/file"

@@ -3,43 +3,61 @@ from datetime import date, datetime, timezone
 import httpx
 import pytest
 
-from danegov.cli import decide_upload
-from danegov.portal import Portal, PortalResource
+from danegov.cli import decide_delivery
+from danegov.portal import Portal
 from danegov.state import PublishedDay
 
+TODAY = date(2026, 9, 28)  # Warsaw publication date
+NIGHT_BEFORE = datetime(2026, 9, 27, 23, 17, tzinfo=timezone.utc)  # already the 28th in Warsaw
 EARLY = datetime(2026, 9, 28, 5, 17, tzinfo=timezone.utc)
+MORNING = datetime(2026, 9, 28, 6, 30, tzinfo=timezone.utc)
 LATE = datetime(2026, 9, 28, 9, 17, tzinfo=timezone.utc)
 RECORDED = PublishedDay(resource_id="2701563")
-LISTED = [
-    PortalResource(id="1", dataset_id="16658", title="x 2026-09-28", created="2026-09-28T01:00:00Z")
-]
 
 
-@pytest.mark.parametrize(
-    ("kwargs", "expected"),
-    [
-        ({"force": True, "recorded": RECORDED}, True),
-        ({"recorded": RECORDED}, False),
-        ({"listed": LISTED}, False),
-        ({"mode": "bot"}, True),
-        ({"mode": "harvester", "now_utc": LATE}, False),
-        ({"harvester": False}, True),
-        ({"harvester": True, "now_utc": EARLY}, False),
-        ({"harvester": True, "now_utc": LATE}, True),
-    ],
-)
-def test_decide_upload(kwargs: dict, expected: bool) -> None:
+def _decide(found: str | None = None, **kwargs: object) -> tuple[str, list[int]]:
+    calls: list[int] = []
+
+    def lookup() -> str | None:
+        calls.append(1)
+        return found
+
     arguments = {
         "force": False,
         "recorded": None,
-        "listed": [],
-        "mode": "auto",
-        "harvester": False,
+        "harvester": True,
         "now_utc": EARLY,
+        "today": TODAY,
         **kwargs,
     }
-    upload, reason = decide_upload(**arguments)
-    assert upload is expected, reason
+    action, _, _ = decide_delivery(lookup=lookup, **arguments)
+    return action, calls
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "found", "expected"),
+    [
+        ({"force": True, "recorded": RECORDED}, None, "upload"),
+        ({"recorded": RECORDED}, None, "skip"),
+        ({"harvester": False}, None, "upload"),
+        ({"now_utc": NIGHT_BEFORE}, None, "wait"),
+        ({"now_utc": EARLY}, None, "wait"),
+        ({"now_utc": MORNING}, "2800000", "record"),
+        ({"now_utc": MORNING}, None, "wait"),
+        ({"now_utc": LATE}, "2800000", "record"),
+        ({"now_utc": LATE}, None, "upload"),
+    ],
+)
+def test_decide_delivery(kwargs: dict, found: str | None, expected: str) -> None:
+    action, _ = _decide(found, **kwargs)
+    assert action == expected
+
+
+def test_admin_lookup_only_when_needed() -> None:
+    assert _decide(recorded=RECORDED)[1] == []
+    assert _decide(harvester=False)[1] == []
+    assert _decide(now_utc=EARLY)[1] == []
+    assert _decide(now_utc=LATE)[1] == [1]
 
 
 def test_resource_by_id_reads_dataset() -> None:

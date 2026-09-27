@@ -152,11 +152,11 @@ INSTITUTION_ID = 5568
 # a new value makes dane.gov.pl re-import everything as new resources).
 DATASET_EXT_IDENT = "trend-inwestycje-matejki"
 
-# dane.gov.pl imports registered XML files around 05:50 UTC. Before this hour a
-# missing resource in harvester mode is "pending", after it a failure.
-HARVEST_DEADLINE_UTC_HOUR = 7
-# From this hour on, a day still missing on the portal in harvester mode is
-# uploaded by the browser bot as a fallback.
+# dane.gov.pl imports registered XML files around 05:50 UTC. Before this hour
+# (on the Warsaw publication date) a missing harvester import is not looked for.
+HARVEST_READY_UTC_HOUR = 6
+# From this hour on, a day the harvester did not import is uploaded by the
+# browser bot instead.
 HARVEST_FALLBACK_UTC_HOUR = 9
 
 # Must match the cron entries in .github/workflows/daily.yml (checked by tests).

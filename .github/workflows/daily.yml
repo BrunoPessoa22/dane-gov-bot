@@ -51,20 +51,19 @@ jobs:
         id: build
         run: python -m danegov build $FORCE
 
-      - name: Decide whether the browser bot uploads
+      - name: Check whether a browser is needed
         id: plan
-        run: python -m danegov plan-upload $FORCE
+        run: python -m danegov plan $FORCE
 
       - name: Install browser
-        if: steps.plan.outputs.upload == 'true'
+        if: steps.plan.outputs.browser == 'true'
         run: python -m playwright install --with-deps chromium
 
-      - name: Upload through the dane.gov.pl admin panel
-        if: steps.plan.outputs.upload == 'true'
+      - name: Deliver to dane.gov.pl
         env:
           DANE_GOV_EMAIL: ${{ secrets.DANE_GOV_EMAIL }}
           DANE_GOV_PASSWORD: ${{ secrets.DANE_GOV_PASSWORD }}
-        run: python -m danegov upload
+        run: python -m danegov deliver $FORCE
 
       - name: Verify dane.gov.pl serves today's file
         run: python -m danegov verify

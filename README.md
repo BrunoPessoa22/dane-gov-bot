@@ -16,7 +16,8 @@ WordPress / TablePress (public pages)          the only place prices are edited
 public/csv/Ceny-ofertowe-…-YYYY-MM-DD.csv      58-column ministry structure
 public/dane-gov.xml + dane-gov.md5             XML harvester feed (schema 1.13)
 state/prices.json                              since when each price applies
-        │  plan-upload → upload                browser bot, until the harvester is active
+        │  deliver                             browser upload until the harvester is active,
+        │                                      then record the harvester's import
         ▼
 dane.gov.pl  ──  python -m danegov verify      downloads the published file and
                                                compares it byte-for-byte
@@ -41,12 +42,13 @@ e-mail to NOTIFY_EMAILS (success once a day, every failure)
   retry if something failed and otherwise do nothing.
 - **Delivery:** `DELIVERY_MODE` repository variable, default `auto`: the browser bot
   uploads until dane.gov.pl lists an XML-harvested dataset for the institution, then the
-  harvester takes over and the bot only uploads as a fallback if the day is still missing
-  at 09:00 UTC. `bot` / `harvester` force one path.
-- **Verification by id:** dane.gov.pl's listings come from a search index that lags
-  uploads by hours, so the bot records each uploaded resource id in
-  `state/published.json`, verifies that resource directly, and never uploads a recorded
-  day twice.
+  harvester takes over and the bot only uploads as a fallback if the day's import is not
+  in the admin panel by 09:00 UTC. `bot` / `harvester` force one path.
+- **Verification by id:** dane.gov.pl's public listings come from a search index that lags
+  new resources by many hours, so they are never used. The bot takes the day's resource id
+  from the admin panel (after its own upload, or after the harvester's import), records it
+  in `state/published.json`, verifies that resource directly, and never delivers a
+  recorded day twice.
 - **Checks that stop publication** (and send a failure e-mail): a table missing or
   renamed column, a table shrinking below its minimum size, an unparseable price or
   status, a duplicate unit number, a file on dane.gov.pl that differs from the day's file.

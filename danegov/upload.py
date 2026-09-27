@@ -1,8 +1,8 @@
-"""Browser upload to the dane.gov.pl admin panel (the original bot's flow).
+"""dane.gov.pl admin panel: browser upload and resource lookup.
 
-Used until the XML harvester is active, and as its fallback afterwards. It
-copies the newest resource ("Kopiuj do nowego") so all metadata carries over,
-then swaps in the day's file and title.
+Uploads are used until the XML harvester is active, and as its fallback
+afterwards. An upload copies the newest resource ("Kopiuj do nowego") so all
+metadata carries over, then swaps in the day's file and title.
 """
 
 from __future__ import annotations
@@ -10,6 +10,8 @@ from __future__ import annotations
 import logging
 import re
 import time
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 
 from playwright.sync_api import Error as PlaywrightError
@@ -107,8 +109,12 @@ def _save(page: Page) -> None:
         raise UploadError(f"admin rejected the form: {errors.first.inner_text().strip()}")
 
 
-def _new_resource_id(page: Page, title: str) -> str:
-    """Id of the newest resource with this title (the admin list is newest first)."""
+def find_resource_id(page: Page, title: str) -> str | None:
+    """Id of the newest resource with this title, or None.
+
+    The admin list (newest first) shows resources immediately, unlike the
+    public API listings, which lag by hours.
+    """
     page.goto(RESOURCES_URL)
     page.wait_for_load_state("networkidle")
     for link in page.locator('a[href*="/resources/resource/"][href*="/change"]').all()[:10]:
@@ -116,33 +122,35 @@ def _new_resource_id(page: Page, title: str) -> str:
             match = re.search(r"/resources/resource/(\d+)/change", link.get_attribute("href") or "")
             if match:
                 return match.group(1)
-    raise UploadError(f"saved, but no resource titled {title!r} in the admin list")
+    return None
 
 
-def upload_csv(csv_path: Path, title: str, email: str, password: str, headless: bool = True) -> str:
-    """Upload the file as a new resource and return its id."""
-    if not csv_path.exists():
-        raise UploadError(f"CSV not found: {csv_path}")
+@contextmanager
+def admin_session(email: str, password: str, headless: bool = True) -> Iterator[Page]:
+    """A logged-in browser page on the admin resource list."""
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=headless)
         page = browser.new_page(viewport={"width": 1920, "height": 1080})
         page.set_default_timeout(60000)
-        step = "login"
         try:
             _login(page, email, password)
-            step = "open admin resources"
             _open_admin_resources(page)
-            step = "copy latest resource"
-            _copy_latest_resource(page)
-            step = "fill form"
-            _fill_form(page, csv_path, title)
-            step = "save"
-            _save(page)
-            step = "find new resource"
-            resource_id = _new_resource_id(page, title)
+            yield page
         except PlaywrightError as exc:
-            raise UploadError(f"browser step '{step}' failed at {page.url}: {exc}") from exc
+            raise UploadError(f"browser step failed at {page.url}: {exc}") from exc
         finally:
             browser.close()
+
+
+def upload_csv(page: Page, csv_path: Path, title: str) -> str:
+    """Upload the file as a new resource and return its id."""
+    if not csv_path.exists():
+        raise UploadError(f"CSV not found: {csv_path}")
+    _copy_latest_resource(page)
+    _fill_form(page, csv_path, title)
+    _save(page)
+    resource_id = find_resource_id(page, title)
+    if resource_id is None:
+        raise UploadError(f"saved, but no resource titled {title!r} in the admin list")
     logger.info("uploaded", extra={"file": csv_path.name, "title": title, "resource": resource_id})
     return resource_id
