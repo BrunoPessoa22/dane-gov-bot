@@ -1,5 +1,5 @@
 {
-  "updated": null,
+  "updated": "2026-09-27",
   "units": {
     "apartment:1": {
       "price_total": "312777.00",
@@ -8,22 +8,22 @@
       "since_m2": "2025-09-11"
     },
     "apartment:2": {
-      "price_total": "315123.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "342525.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:3": {
-      "price_total": "413172.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "449100.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:4": {
-      "price_total": "332856.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "361800.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:5": {
       "price_total": "332856.00",
@@ -32,34 +32,34 @@
       "since_m2": "2025-09-11"
     },
     "apartment:6": {
-      "price_total": "418830.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "455250.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:7": {
-      "price_total": "449811.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "488925.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:8": {
-      "price_total": "359628.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "390900.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:9": {
-      "price_total": "332856.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "361800.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:10": {
-      "price_total": "332856.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "361800.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:11": {
       "price_total": "332856.00",
@@ -68,10 +68,10 @@
       "since_m2": "2025-09-11"
     },
     "apartment:12": {
-      "price_total": "439599.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "477825.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:13": {
       "price_total": "236904.50",
@@ -80,10 +80,10 @@
       "since_m2": "2025-09-11"
     },
     "apartment:14": {
-      "price_total": "391989.00",
-      "since_total": "2025-09-11",
-      "price_m2": "6900",
-      "since_m2": "2025-09-11"
+      "price_total": "426075.00",
+      "since_total": "2026-09-27",
+      "price_m2": "7500",
+      "since_m2": "2026-09-27"
     },
     "apartment:15": {
       "price_total": "271526.70",
@@ -248,10 +248,10 @@
       "since_m2": "2025-09-11"
     },
     "apartment:42": {
-      "price_total": "340291.90",
-      "since_total": "2025-09-11",
-      "price_m2": "5990",
-      "since_m2": "2025-09-11"
+      "price_total": "369265.00",
+      "since_total": "2026-09-27",
+      "price_m2": "6500",
+      "since_m2": "2026-09-27"
     },
     "apartment:43": {
       "price_total": "271526.70",
@@ -308,16 +308,16 @@
       "since_m2": "2026-04-02"
     },
     "apartment:52": {
-      "price_total": "288957.60",
-      "since_total": "2025-09-11",
-      "price_m2": "5990",
-      "since_m2": "2025-09-11"
+      "price_total": "313560.00",
+      "since_total": "2026-09-27",
+      "price_m2": "6500",
+      "since_m2": "2026-09-27"
     },
     "apartment:53": {
-      "price_total": "288957.60",
-      "since_total": "2025-09-11",
-      "price_m2": "5990",
-      "since_m2": "2025-09-11"
+      "price_total": "313560.00",
+      "since_total": "2026-09-27",
+      "price_m2": "6500",
+      "since_m2": "2026-09-27"
     },
     "apartment:54": {
       "price_total": "381622.90",

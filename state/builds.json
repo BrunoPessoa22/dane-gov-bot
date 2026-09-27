@@ -1,0 +1,169 @@
+{
+  "2026-09-27": {
+    "built_at": "2026-09-27T15:13:51+00:00",
+    "counts": {
+      "apartment": 26,
+      "parking": 17,
+      "storage": 6
+    },
+    "changes": [
+      {
+        "key": "apartment:2",
+        "field": "price_total",
+        "old": "315123.00",
+        "new": "342525.00"
+      },
+      {
+        "key": "apartment:2",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:3",
+        "field": "price_total",
+        "old": "413172.00",
+        "new": "449100.00"
+      },
+      {
+        "key": "apartment:3",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:4",
+        "field": "price_total",
+        "old": "332856.00",
+        "new": "361800.00"
+      },
+      {
+        "key": "apartment:4",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:6",
+        "field": "price_total",
+        "old": "418830.00",
+        "new": "455250.00"
+      },
+      {
+        "key": "apartment:6",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:7",
+        "field": "price_total",
+        "old": "449811.00",
+        "new": "488925.00"
+      },
+      {
+        "key": "apartment:7",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:8",
+        "field": "price_total",
+        "old": "359628.00",
+        "new": "390900.00"
+      },
+      {
+        "key": "apartment:8",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:9",
+        "field": "price_total",
+        "old": "332856.00",
+        "new": "361800.00"
+      },
+      {
+        "key": "apartment:9",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:10",
+        "field": "price_total",
+        "old": "332856.00",
+        "new": "361800.00"
+      },
+      {
+        "key": "apartment:10",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:12",
+        "field": "price_total",
+        "old": "439599.00",
+        "new": "477825.00"
+      },
+      {
+        "key": "apartment:12",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:14",
+        "field": "price_total",
+        "old": "391989.00",
+        "new": "426075.00"
+      },
+      {
+        "key": "apartment:14",
+        "field": "price_m2",
+        "old": "6900",
+        "new": "7500"
+      },
+      {
+        "key": "apartment:42",
+        "field": "price_total",
+        "old": "340291.90",
+        "new": "369265.00"
+      },
+      {
+        "key": "apartment:42",
+        "field": "price_m2",
+        "old": "5990",
+        "new": "6500"
+      },
+      {
+        "key": "apartment:52",
+        "field": "price_total",
+        "old": "288957.60",
+        "new": "313560.00"
+      },
+      {
+        "key": "apartment:52",
+        "field": "price_m2",
+        "old": "5990",
+        "new": "6500"
+      },
+      {
+        "key": "apartment:53",
+        "field": "price_total",
+        "old": "288957.60",
+        "new": "313560.00"
+      },
+      {
+        "key": "apartment:53",
+        "field": "price_m2",
+        "old": "5990",
+        "new": "6500"
+      }
+    ],
+    "warnings": []
+  }
+}
