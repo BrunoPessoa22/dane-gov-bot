@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns2:datasets xmlns:ns2="urn:otwarte-dane:harvester:1.13" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataset status="published">
+		<extIdent>36_znakowy_extident_dewelopera_TESTY</extIdent>
+		<title>
+			<polish>Ceny ofertowe mieszkań dewelopera TESTY w 2025 r.</polish>
+			<english>Offer prices of apartments of developer TESTY in 2025.</english>
+		</title>
+		<description>
+			<polish>Zbiór danych zawiera informacje o cenach ofertowych mieszkań dewelopera TESTY udostępniane zgodnie z art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</polish>
+			<english>The dataset contains information on offer prices of apartments of the developer TESTY made available in accordance with art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</english>
+		</description>
+		<updateFrequency>daily</updateFrequency>
+        <hasDynamicData>false</hasDynamicData>
+        <hasHighValueData>true</hasHighValueData>
+        <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+        <hasResearchData>false</hasResearchData>
+		<categories>
+			<category>ECON</category>
+		</categories>
+		<resources>
+			<resource status="published">
+				<extIdent>36_znakowy_extident_TESTY_20250620</extIdent>
+				<url>https://strona-dewelopera.com.pl/Ceny-ofertowe-mieszkan-dewelopera-TESTY-2025-06-20.csv</url>
+				<title>
+					<polish>Ceny ofertowe mieszkań dewelopera TESTY 2025-06-30</polish>
+					<english>Offer prices for developer's apartments TESTY 2025-06-20</english>
+				</title>
+				<description>
+					<polish>Dane dotyczące cen ofertowych mieszkań dewelopera TESTY udostępnione 2025-06-20 zgodnie z art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695)”[1].</polish>
+					<english>Data on offer prices of apartments of the developer TESTY made available 2025-06-20 in accordance with art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</english>
+				</description>
+				<availability>local</availability>
+				<dataDate>2025-06-20</dataDate>
+				<specialSigns>
+                    <specialSign>X</specialSign>
+                </specialSigns>
+                <hasDynamicData>false</hasDynamicData>
+                <hasHighValueData>true</hasHighValueData>
+                <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+                <hasResearchData>false</hasResearchData>
+                <containsProtectedData>false</containsProtectedData>
+			</resource>
+				<resource status="published">
+				<extIdent>36_znakowy_extident_TESTY_20250621</extIdent>
+				<url>https://strona-dewelopera.com.pl/Ceny-ofertowe-mieszkan-dewelopera-TESTY-2025-06-21.csv</url>
+				<title>
+					<polish>Ceny ofertowe mieszkań dewelopera TESTY 2025-06-21</polish>
+					<english>Offer prices for developer's apartments TESTY 2025-06-21</english>
+				</title>
+				<description>
+					<polish>Dane dotyczące cen ofertowych mieszkań dewelopera TESTY udostępnione 2025-06-21 zgodnie z art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695)”[1].</polish>
+					<english>Data on offer prices of apartments of the developer TESTY made available 2025-06-21 in accordance with art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</english>
+				</description>
+				<availability>local</availability>
+				<dataDate>2025-06-21</dataDate>
+				<specialSigns>
+                    <specialSign>X</specialSign>
+                </specialSigns>
+                <hasDynamicData>false</hasDynamicData>
+                <hasHighValueData>true</hasHighValueData>
+                <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+                <hasResearchData>false</hasResearchData>
+                <containsProtectedData>false</containsProtectedData>
+			</resource>
+				<resource status="published">
+				<extIdent>36_znakowy_extident_TESTY_20250622</extIdent>
+				<url>https://strona-dewelopera.com.pl/Ceny-ofertowe-mieszkan-dewelopera-TESTY-2025-06-22.csv</url>
+				<title>
+					<polish>Ceny ofertowe mieszkań dewelopera TESTY 2025-06-22</polish>
+					<english>Offer prices for developer's apartments TESTY 2025-06-22</english>
+				</title>
+				<description>
+					<polish>Dane dotyczące cen ofertowych mieszkań dewelopera TESTY udostępnione 2025-06-22 zgodnie z art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695)”[1].</polish>
+					<english>Data on offer prices of apartments of the developer TESTY made available 2025-06-22 in accordance with art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</english>
+				</description>
+				<availability>local</availability>
+				<dataDate>2025-06-22</dataDate>
+				<specialSigns>
+                    <specialSign>X</specialSign>
+                </specialSigns>
+                <hasDynamicData>false</hasDynamicData>
+                <hasHighValueData>true</hasHighValueData>
+                <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+                <hasResearchData>false</hasResearchData>
+                <containsProtectedData>false</containsProtectedData>
+			</resource>
+		</resources>
+		<tags>
+			<tag lang="pl">Deweloper</tag>
+		</tags>
+	</dataset>
+</ns2:datasets>

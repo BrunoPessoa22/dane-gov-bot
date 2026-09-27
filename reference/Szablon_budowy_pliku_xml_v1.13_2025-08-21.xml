@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns2:datasets xmlns:ns2="urn:otwarte-dane:harvester:1.13" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataset status="published">
+		<extIdent>36_znakowy_extident_dewelopera_abcde</extIdent>
+		<title>
+			<polish>Ceny ofertowe mieszkań dewelopera {nazwa dewelopera} w {2025} r.</polish>
+			<english>Offer prices of apartments of developer {developer's name} in {2025}.</english>
+		</title>
+		<description>
+			<polish>Zbiór danych zawiera informacje o cenach ofertowych mieszkań dewelopera {nazwa dewelopera} udostępniane zgodnie z art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</polish>
+			<english>The dataset contains information on offer prices of apartments of the developer {developer's name} made available in accordance with art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</english>
+		</description>
+		<updateFrequency>daily</updateFrequency>
+        <hasDynamicData>false</hasDynamicData>
+        <hasHighValueData>true</hasHighValueData>
+        <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+        <hasResearchData>false</hasResearchData>
+		<categories>
+			<category>ECON</category>
+		</categories>
+		<resources>
+			<resource status="published">
+				<extIdent>36_znakowy_extident_dewab_YYYYMMDD</extIdent>
+				<url>https://strona-dewelopera.com.pl/Ceny-ofertowe-mieszkan-dewelopera-{nazwa dewelopera}-{YYYY-MM-DD}.csv</url>
+				<title>
+					<polish>Ceny ofertowe mieszkań dewelopera {nawa dewelopera} {YYYY-MM-DD}</polish>
+					<english>Offer prices for developer's apartments {developer's name} {YYYY-MM-DD}</english>
+				</title>
+				<description>
+					<polish>Dane dotyczące cen ofertowych mieszkań dewelopera {nazwa dewelopera} udostępnione {YYYY-MM-DD} zgodnie z art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695)”[1].</polish>
+					<english>Data on offer prices of apartments of the developer {developer's name} made available {YYYY-MM-DD} in accordance with art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</english>
+				</description>
+				<availability>local</availability>
+				<dataDate>YYYY-MM-DD</dataDate>
+				<specialSigns>
+					<specialSign>X</specialSign>
+                </specialSigns>
+                <hasDynamicData>false</hasDynamicData>
+                <hasHighValueData>true</hasHighValueData>
+                <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+                <hasResearchData>false</hasResearchData>
+                <containsProtectedData>false</containsProtectedData>
+			</resource>
+		</resources>
+		<tags>
+			<tag lang="pl">Deweloper</tag>
+		</tags>
+	</dataset>
+</ns2:datasets>
