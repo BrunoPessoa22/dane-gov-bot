@@ -1,0 +1,785 @@
+{
+  "updated": null,
+  "units": {
+    "apartment:1": {
+      "price_total": "312777.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:2": {
+      "price_total": "315123.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:3": {
+      "price_total": "413172.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:4": {
+      "price_total": "332856.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:5": {
+      "price_total": "332856.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:6": {
+      "price_total": "418830.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:7": {
+      "price_total": "449811.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:8": {
+      "price_total": "359628.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:9": {
+      "price_total": "332856.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:10": {
+      "price_total": "332856.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:11": {
+      "price_total": "332856.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:12": {
+      "price_total": "439599.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:13": {
+      "price_total": "236904.50",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:14": {
+      "price_total": "391989.00",
+      "since_total": "2025-09-11",
+      "price_m2": "6900",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:15": {
+      "price_total": "271526.70",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:16": {
+      "price_total": "273563.30",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:17": {
+      "price_total": "389220.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:18": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:19": {
+      "price_total": "313560.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:20": {
+      "price_total": "394550.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:21": {
+      "price_total": "423735.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:22": {
+      "price_total": "312198.80",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:23": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:24": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:25": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:26": {
+      "price_total": "381622.90",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:27": {
+      "price_total": "236904.50",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:28": {
+      "price_total": "340291.90",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:29": {
+      "price_total": "271526.70",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:30": {
+      "price_total": "273563.30",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:31": {
+      "price_total": "389220.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:32": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:33": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:34": {
+      "price_total": "394550.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:35": {
+      "price_total": "423735.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:36": {
+      "price_total": "312198.80",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:37": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:38": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:39": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:40": {
+      "price_total": "381622.90",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:41": {
+      "price_total": "236904.50",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:42": {
+      "price_total": "340291.90",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:43": {
+      "price_total": "271526.70",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:44": {
+      "price_total": "273563.30",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:45": {
+      "price_total": "389220.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:46": {
+      "price_total": "313560.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:47": {
+      "price_total": "313560.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:48": {
+      "price_total": "394550.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:49": {
+      "price_total": "423735.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:50": {
+      "price_total": "312198.80",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:51": {
+      "price_total": "313560.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:52": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:53": {
+      "price_total": "288957.60",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:54": {
+      "price_total": "381622.90",
+      "since_total": "2025-09-11",
+      "price_m2": "5990",
+      "since_m2": "2025-09-11"
+    },
+    "apartment:55": {
+      "price_total": "284760.00",
+      "since_total": "2026-04-02",
+      "price_m2": "7200",
+      "since_m2": "2026-04-02"
+    },
+    "apartment:56": {
+      "price_total": "369265.00",
+      "since_total": "2026-04-02",
+      "price_m2": "6500",
+      "since_m2": "2026-04-02"
+    },
+    "parking:1": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:2": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:3": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:4": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:5": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:6": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:7": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:8": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:9": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:10": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:11": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:12": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:13": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:14": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:15": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:16": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:17": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:18": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:19": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:20": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:21": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:22": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:23": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:24": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:25": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:26": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:27": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:28": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:29": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:30": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:31": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:32": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:33": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:34": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:35": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "parking:36": {
+      "price_total": "50000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:1": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:2": {
+      "price_total": "4000.00",
+      "since_total": "2026-04-02",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:3": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:4": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:5": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:6": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:7": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:8": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:9": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:10": {
+      "price_total": "7000.00",
+      "since_total": "2026-04-02",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:11": {
+      "price_total": "4000.00",
+      "since_total": "2026-04-02",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:12": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:13": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:14": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:15": {
+      "price_total": "7000.00",
+      "since_total": "2026-04-02",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:16": {
+      "price_total": "7000.00",
+      "since_total": "2026-04-02",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:17": {
+      "price_total": "7000.00",
+      "since_total": "2026-04-02",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:18": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:19": {
+      "price_total": "7000.00",
+      "since_total": "2026-04-02",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:20": {
+      "price_total": "7000.00",
+      "since_total": "2026-04-02",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:21": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:22": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:23": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:24": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:25": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:26": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:27": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:28": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:29": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:30": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:31": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:32": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:33": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:34": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:35": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:36": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:37": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    },
+    "storage:38": {
+      "price_total": "5000.00",
+      "since_total": "2025-09-11",
+      "price_m2": null,
+      "since_m2": null
+    }
+  }
+}
