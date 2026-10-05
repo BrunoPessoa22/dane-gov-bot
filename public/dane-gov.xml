@@ -196,6 +196,28 @@
         <hasResearchData>false</hasResearchData>
         <containsProtectedData>false</containsProtectedData>
       </resource>
+      <resource status="published">
+        <extIdent>trend-inwestycje-matejki-20261005</extIdent>
+        <url>https://brunopessoa22.github.io/dane-gov-bot/csv/Ceny-ofertowe-mieszkan-dewelopera-Trend-Inwestycje-2026-10-05.csv</url>
+        <title>
+          <polish>Ceny ofertowe mieszkań dewelopera Trend Inwestycje 2026-10-05</polish>
+          <english>Offer prices for developer's apartments Trend Inwestycje 2026-10-05</english>
+        </title>
+        <description>
+          <polish>Dane dotyczące cen ofertowych mieszkań dewelopera Trend Inwestycje udostępnione 2026-10-05 zgodnie z art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</polish>
+          <english>Data on offer prices of apartments of the developer Trend Inwestycje made available 2026-10-05 in accordance with art. 19b. ust. 1 Ustawy z dnia 20 maja 2021 r. o ochronie praw nabywcy lokalu mieszkalnego lub domu jednorodzinnego oraz Deweloperskim Funduszu Gwarancyjnym (Dz. U. z 2024 r. poz. 695).</english>
+        </description>
+        <availability>local</availability>
+        <dataDate>2026-10-05</dataDate>
+        <specialSigns>
+          <specialSign>X</specialSign>
+        </specialSigns>
+        <hasDynamicData>false</hasDynamicData>
+        <hasHighValueData>true</hasHighValueData>
+        <hasHighValueDataFromEuropeanCommissionList>false</hasHighValueDataFromEuropeanCommissionList>
+        <hasResearchData>false</hasResearchData>
+        <containsProtectedData>false</containsProtectedData>
+      </resource>
     </resources>
     <tags>
       <tag lang="pl">Deweloper</tag>
