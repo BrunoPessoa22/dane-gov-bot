@@ -465,5 +465,15 @@
     },
     "changes": [],
     "warnings": []
+  },
+  "2026-10-28": {
+    "built_at": "2026-10-28T11:20:25+00:00",
+    "counts": {
+      "apartment": 24,
+      "parking": 16,
+      "storage": 6
+    },
+    "changes": [],
+    "warnings": []
   }
 }
