@@ -59,13 +59,18 @@ jobs:
         if: steps.plan.outputs.browser == 'true'
         run: python -m playwright install --with-deps chromium
 
+      # dane.gov.pl only answers Polish IPs since Nov 2026: DANE_GOV_PROXY routes
+      # the portal traffic through a Polish exit (see danegov/egress.py).
       - name: Deliver to dane.gov.pl
         env:
           DANE_GOV_EMAIL: ${{ secrets.DANE_GOV_EMAIL }}
           DANE_GOV_PASSWORD: ${{ secrets.DANE_GOV_PASSWORD }}
+          DANE_GOV_PROXY: ${{ secrets.DANE_GOV_PROXY }}
         run: python -m danegov deliver $FORCE
 
       - name: Verify dane.gov.pl serves today's file
+        env:
+          DANE_GOV_PROXY: ${{ secrets.DANE_GOV_PROXY }}
         run: python -m danegov verify
 
       - name: Commit files and price history

@@ -34,6 +34,7 @@ from playwright.sync_api import Page
 
 from danegov import config
 from danegov.build import build_csv, csv_filename, published_units, resource_title
+from danegov.egress import PortalProxy, portal_proxy
 from danegov.harvester import build_xml, md5_hex, published_days
 from danegov.logs import setup_logging
 from danegov.models import DaneGovError
@@ -70,8 +71,19 @@ def _today() -> date:
     return datetime.now(config.TZ).date()
 
 
-def _http() -> httpx.Client:
-    return httpx.Client(timeout=30, headers={"User-Agent": USER_AGENT}, follow_redirects=True)
+def _http(proxy: PortalProxy | None = None) -> httpx.Client:
+    return httpx.Client(
+        timeout=30,
+        headers={"User-Agent": USER_AGENT},
+        follow_redirects=True,
+        proxy=proxy.url if proxy else None,
+    )
+
+
+def _portal_route() -> PortalProxy | None:
+    proxy = portal_proxy()
+    logger.info("dane.gov.pl route", extra={"via": proxy.describe() if proxy else "direct"})
+    return proxy
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -207,6 +219,7 @@ def cmd_plan(args: argparse.Namespace, summary: dict[str, Any]) -> None:
 
 def cmd_deliver(args: argparse.Namespace, summary: dict[str, Any]) -> None:
     today = _today()
+    proxy = _portal_route()
     title = resource_title(today)
     csv_path = config.CSV_DIR / csv_filename(today)
     mode = _delivery_mode()
@@ -218,14 +231,17 @@ def cmd_deliver(args: argparse.Namespace, summary: dict[str, Any]) -> None:
         def page() -> Page:
             if not pages:
                 session = admin_session(
-                    _env("DANE_GOV_EMAIL"), _env("DANE_GOV_PASSWORD"), headless=not args.headed
+                    _env("DANE_GOV_EMAIL"),
+                    _env("DANE_GOV_PASSWORD"),
+                    headless=not args.headed,
+                    proxy=proxy,
                 )
                 pages.append(stack.enter_context(session))
             return pages[0]
 
         harvester = mode == "harvester"
         if mode == "auto" and not args.force and recorded is None:
-            with _http() as client:
+            with _http(proxy) as client:
                 harvester = Portal(client).harvester_active(config.INSTITUTION_ID)
         action, reason, resource_id = decide_delivery(
             force=args.force,
@@ -290,7 +306,7 @@ def cmd_verify(args: argparse.Namespace, summary: dict[str, Any]) -> None:
             return
         raise VerifyError(f"no dane.gov.pl resource recorded for {today.isoformat()}")
     uploaded_now = summary.get("deliver", {}).get("action") == "upload"
-    with _http() as client:
+    with _http(_portal_route()) as client:
         portal = Portal(client)
         resource = _fetch_resource(portal, recorded.resource_id, 180 if uploaded_now else 0)
         if not resource.title.endswith(today.isoformat()):

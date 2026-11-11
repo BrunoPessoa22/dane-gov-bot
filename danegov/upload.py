@@ -19,6 +19,7 @@ from playwright.sync_api import Page
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from playwright.sync_api import sync_playwright
 
+from danegov.egress import PortalProxy
 from danegov.models import DaneGovError
 
 logger = logging.getLogger(__name__)
@@ -126,10 +127,14 @@ def find_resource_id(page: Page, title: str) -> str | None:
 
 
 @contextmanager
-def admin_session(email: str, password: str, headless: bool = True) -> Iterator[Page]:
+def admin_session(
+    email: str, password: str, headless: bool = True, proxy: PortalProxy | None = None
+) -> Iterator[Page]:
     """A logged-in browser page on the admin resource list."""
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=headless)
+        browser = playwright.chromium.launch(
+            headless=headless, proxy=proxy.playwright() if proxy else None
+        )
         page = browser.new_page(viewport={"width": 1920, "height": 1080})
         page.set_default_timeout(60000)
         try:

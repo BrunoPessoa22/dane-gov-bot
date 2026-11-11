@@ -97,9 +97,18 @@ stops the browser uploads.
 | --- | --- |
 | Run now | Actions → *Daily dane.gov.pl publication* → Run workflow |
 | Re-publish today after fixing the website | same, with **force** ticked |
-| Secrets | `DANE_GOV_EMAIL`, `DANE_GOV_PASSWORD` (admin login), `RESEND_API_KEY`, `NOTIFY_EMAILS` (comma-separated) |
+| Secrets | `DANE_GOV_EMAIL`, `DANE_GOV_PASSWORD` (admin login), `RESEND_API_KEY`, `NOTIFY_EMAILS` (comma-separated), `DANE_GOV_PROXY` (optional, see below) |
 | Variables | `DELIVERY_MODE` = `auto` (default), `bot` or `harvester` |
 | Published files | https://brunopessoa22.github.io/dane-gov-bot/ (never rename the repository: the harvester URLs depend on it) |
+
+### Polish IP for dane.gov.pl
+
+Since November 2026 dane.gov.pl (api, admin and www) only accepts connections from Polish IP
+addresses: from GitHub's runners every request times out. `DANE_GOV_PROXY` is a proxy URL with a
+Polish exit (`http://user:password@host:port`, password URL-encoded). Only the dane.gov.pl
+traffic (API checks and the browser upload) uses it; the website scrape and e-mails go direct.
+Leave it unset to connect directly. To tell a geo-block from an outage, compare Polish and
+non-Polish nodes on check-host.net: a single request from abroad looks like the portal is down.
 
 ## Development
 
