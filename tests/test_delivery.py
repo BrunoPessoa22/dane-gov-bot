@@ -40,6 +40,7 @@ def _decide(found: str | None = None, **kwargs: object) -> tuple[str, list[int]]
         ({"force": True, "recorded": RECORDED}, None, "upload"),
         ({"recorded": RECORDED}, None, "skip"),
         ({"harvester": False}, None, "upload"),
+        ({"harvester": False}, "2800000", "record"),
         ({"now_utc": NIGHT_BEFORE}, None, "wait"),
         ({"now_utc": EARLY}, None, "wait"),
         ({"now_utc": MORNING}, "2800000", "record"),
@@ -55,7 +56,7 @@ def test_decide_delivery(kwargs: dict, found: str | None, expected: str) -> None
 
 def test_admin_lookup_only_when_needed() -> None:
     assert _decide(recorded=RECORDED)[1] == []
-    assert _decide(harvester=False)[1] == []
+    assert _decide(harvester=False)[1] == [1]  # duplicate guard before a browser upload
     assert _decide(now_utc=EARLY)[1] == []
     assert _decide(now_utc=LATE)[1] == [1]
 

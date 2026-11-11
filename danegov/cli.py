@@ -204,7 +204,9 @@ def decide_delivery(
     """(action, reason, resource id) for today: upload, record, wait or skip.
 
     `lookup` searches the admin panel for today's resource; it is only called
-    when the answer depends on it, because it needs a browser login.
+    when the answer depends on it, because it needs a browser login. Before a
+    browser upload it guards against a duplicate: a run that saved the resource
+    but failed before recording it must not upload the day again.
     Portal listings are never used: they lag new resources by many hours.
     """
     if force:
@@ -212,6 +214,9 @@ def decide_delivery(
     if recorded is not None:
         return "skip", f"already recorded (resource {recorded.resource_id})", None
     if not harvester:
+        found = lookup()
+        if found:
+            return "record", "already in the admin panel", found
         return "upload", "browser delivery (harvester not active)", None
     if now_utc < _utc_on(today, config.HARVEST_READY_UTC_HOUR):
         return "wait", "before today's harvester import", None
