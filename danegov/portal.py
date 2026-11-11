@@ -7,6 +7,7 @@ delivered (browser upload or XML harvester).
 from __future__ import annotations
 
 import logging
+import time
 from datetime import datetime
 from typing import Any
 
@@ -17,6 +18,11 @@ from danegov.config import PORTAL_API, PORTAL_WEB
 from danegov.models import DaneGovError
 
 logger = logging.getLogger(__name__)
+
+# The portal is slow and, reached through a residential proxy, connections drop
+# now and then: network errors are retried, HTTP errors are not.
+ATTEMPTS = 3
+RETRY_DELAY_SECONDS = 5.0
 
 
 class PortalError(DaneGovError):
@@ -44,12 +50,26 @@ class Portal:
     def __init__(self, client: httpx.Client) -> None:
         self._client = client
 
+    def _get(self, url: str, params: dict[str, str | int] | None = None) -> httpx.Response:
+        for attempt in range(1, ATTEMPTS + 1):
+            try:
+                response = self._client.get(url, params=params)
+                response.raise_for_status()
+                return response
+            except httpx.TransportError as exc:
+                if attempt == ATTEMPTS:
+                    raise
+                logger.warning(
+                    "dane.gov.pl request failed, retrying",
+                    extra={"url": url, "attempt": attempt, "error": str(exc)},
+                )
+                time.sleep(RETRY_DELAY_SECONDS)
+        raise AssertionError("unreachable")
+
     def _get_json(self, path: str, params: dict[str, str | int] | None = None) -> dict[str, Any]:
         url = f"{PORTAL_API}{path}"
         try:
-            response = self._client.get(url, params=params)
-            response.raise_for_status()
-            payload = response.json()
+            payload = self._get(url, params).json()
         except httpx.HTTPError as exc:
             raise PortalError(f"dane.gov.pl API request failed: {url}: {exc}") from exc
         except ValueError as exc:
@@ -91,8 +111,7 @@ class Portal:
     def download(self, resource_id: str) -> bytes:
         url = f"https://api.dane.gov.pl/resources/{resource_id}/file"
         try:
-            response = self._client.get(url, follow_redirects=True)
-            response.raise_for_status()
+            response = self._get(url)
         except httpx.HTTPError as exc:
             raise PortalError(f"cannot download resource {resource_id}: {exc}") from exc
         return response.content

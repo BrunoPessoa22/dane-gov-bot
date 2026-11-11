@@ -33,8 +33,21 @@ class UploadError(DaneGovError):
     pass
 
 
+def _goto(page: Page, url: str, attempts: int = 3) -> None:
+    """Navigate, retrying network failures (a residential proxy drops tunnels now and then)."""
+    for attempt in range(1, attempts + 1):
+        try:
+            page.goto(url)
+            return
+        except PlaywrightError as exc:
+            if attempt == attempts or "net::ERR_" not in str(exc):
+                raise
+            logger.warning("navigation failed, retrying", extra={"url": url, "attempt": attempt})
+            time.sleep(5)
+
+
 def _login(page: Page, email: str, password: str) -> None:
-    page.goto(LOGIN_URL)
+    _goto(page, LOGIN_URL)
     time.sleep(5)  # the login page renders its form with JS
     try:
         page.locator('button:has-text("Zamknij okno dialogowe")').first.click(timeout=5000)
@@ -57,12 +70,12 @@ def _open_admin_resources(page: Page) -> None:
     try:
         page.click('a:has-text("Panel administratora")', timeout=5000)
     except PlaywrightTimeoutError:
-        page.goto(ADMIN_URL)
+        _goto(page, ADMIN_URL)
     page.wait_for_load_state("networkidle")
     try:
         page.click('a:has-text("Zasoby")', timeout=5000)
     except PlaywrightTimeoutError:
-        page.goto(RESOURCES_URL)
+        _goto(page, RESOURCES_URL)
     page.wait_for_load_state("networkidle")
     if "admin.dane.gov.pl" not in page.url:
         raise UploadError(f"did not reach the admin panel (at {page.url})")
@@ -116,7 +129,7 @@ def find_resource_id(page: Page, title: str) -> str | None:
     The admin list (newest first) shows resources immediately, unlike the
     public API listings, which lag by hours.
     """
-    page.goto(RESOURCES_URL)
+    _goto(page, RESOURCES_URL)
     page.wait_for_load_state("networkidle")
     for link in page.locator('a[href*="/resources/resource/"][href*="/change"]').all()[:10]:
         if link.inner_text().strip() == title:

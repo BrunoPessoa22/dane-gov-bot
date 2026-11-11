@@ -96,3 +96,40 @@ def test_day_defaults_to_today_and_rejects_the_future(monkeypatch: pytest.Monkey
     assert _day(argparse.Namespace(day=date(2026, 9, 27))) == date(2026, 9, 27)
     with pytest.raises(ConfigError):
         _day(argparse.Namespace(day=date(2026, 9, 29)))
+
+
+def test_portal_retries_network_errors_only(monkeypatch: pytest.MonkeyPatch) -> None:
+    from danegov import portal
+
+    monkeypatch.setattr(portal, "RETRY_DELAY_SECONDS", 0)
+    calls: list[str] = []
+
+    def flaky(request: httpx.Request) -> httpx.Response:
+        calls.append(request.url.path)
+        if len(calls) < 3:
+            raise httpx.ProxyError("tunnel failed")
+        return httpx.Response(200, content=b"csv")
+
+    with httpx.Client(transport=httpx.MockTransport(flaky)) as client:
+        assert Portal(client).download("1") == b"csv"
+    assert len(calls) == 3
+
+    def down(request: httpx.Request) -> httpx.Response:
+        calls.append("down")
+        raise httpx.ConnectTimeout("timed out")
+
+    calls.clear()
+    with httpx.Client(transport=httpx.MockTransport(down)) as client:
+        with pytest.raises(portal.PortalError):
+            Portal(client).resource("1")
+    assert len(calls) == portal.ATTEMPTS
+
+    def missing(request: httpx.Request) -> httpx.Response:
+        calls.append("404")
+        return httpx.Response(404)
+
+    calls.clear()
+    with httpx.Client(transport=httpx.MockTransport(missing)) as client:
+        with pytest.raises(portal.PortalError):
+            Portal(client).resource("1")
+    assert calls == ["404"]
