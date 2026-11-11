@@ -20,5 +20,12 @@ def _step(name: str) -> str:
 
 def test_portal_steps_get_the_proxy() -> None:
     # dane.gov.pl only answers Polish IPs; every step that talks to it needs the route.
-    for name in ("Deliver to dane.gov.pl", "Verify dane.gov.pl serves today's file"):
+    for name in ("Deliver to dane.gov.pl", "Verify dane.gov.pl serves the day's file"):
         assert "DANE_GOV_PROXY: ${{ secrets.DANE_GOV_PROXY }}" in _step(name)
+
+
+def test_day_input_is_passed_through_env_not_inlined() -> None:
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "DAY: ${{ inputs.day }}" in text
+    assert 'run: python -m danegov deliver $FORCE ${DAY:+--day "$DAY"}' in text
+    assert text.count("${{ inputs.day }}") == 1

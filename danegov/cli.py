@@ -71,6 +71,19 @@ def _today() -> date:
     return datetime.now(config.TZ).date()
 
 
+def _day(args: argparse.Namespace) -> date:
+    """The publication day to act on: today in Warsaw, or an earlier --day."""
+    today = _today()
+    day: date | None = getattr(args, "day", None)
+    if day is None:
+        return today
+    if day > today:
+        raise ConfigError(
+            f"--day {day.isoformat()} is in the future (today is {today.isoformat()})"
+        )
+    return day
+
+
 def _http(proxy: PortalProxy | None = None) -> httpx.Client:
     return httpx.Client(
         timeout=30,
@@ -211,14 +224,14 @@ def decide_delivery(
 
 
 def cmd_plan(args: argparse.Namespace, summary: dict[str, Any]) -> None:
-    recorded = load_published(config.PUBLISHED_PATH).days.get(_today())
+    recorded = load_published(config.PUBLISHED_PATH).days.get(_day(args))
     browser = args.force or recorded is None
     _github_output(browser="true" if browser else "false")
     logger.info("plan", extra={"browser": browser, "recorded": recorded is not None})
 
 
 def cmd_deliver(args: argparse.Namespace, summary: dict[str, Any]) -> None:
-    today = _today()
+    today = _day(args)
     proxy = _portal_route()
     title = resource_title(today)
     csv_path = config.CSV_DIR / csv_filename(today)
@@ -261,6 +274,7 @@ def cmd_deliver(args: argparse.Namespace, summary: dict[str, Any]) -> None:
         )
         save_published(log, config.PUBLISHED_PATH)
     summary["deliver"] = {
+        "day": today.isoformat(),
         "action": action,
         "reason": reason,
         "mode": mode,
@@ -295,7 +309,7 @@ def _fetch_resource(portal: Portal, resource_id: str, wait_seconds: int) -> Port
 
 
 def cmd_verify(args: argparse.Namespace, summary: dict[str, Any]) -> None:
-    today = _today()
+    today = _day(args)
     local = (config.CSV_DIR / csv_filename(today)).read_bytes()
     log = load_published(config.PUBLISHED_PATH)
     recorded = log.days.get(today)
@@ -310,7 +324,9 @@ def cmd_verify(args: argparse.Namespace, summary: dict[str, Any]) -> None:
         portal = Portal(client)
         resource = _fetch_resource(portal, recorded.resource_id, 180 if uploaded_now else 0)
         if not resource.title.endswith(today.isoformat()):
-            raise VerifyError(f"resource {resource.id} is titled {resource.title!r}, not today's")
+            raise VerifyError(
+                f"resource {resource.id} is titled {resource.title!r}, not {today.isoformat()}'s"
+            )
         remote = portal.download(resource.id)
     if remote != local:
         raise VerifyError(
@@ -376,12 +392,16 @@ def _parser() -> argparse.ArgumentParser:
     seed.add_argument("--force", action="store_true")
     build = sub.add_parser("build")
     build.add_argument("--force", action="store_true", help="rebuild today's file")
+    day_help = "publication day YYYY-MM-DD (default: today in Warsaw); its file must be built"
     plan = sub.add_parser("plan")
     plan.add_argument("--force", action="store_true")
+    plan.add_argument("--day", type=date.fromisoformat, help=day_help)
     deliver = sub.add_parser("deliver")
     deliver.add_argument("--force", action="store_true", help="upload even if already published")
     deliver.add_argument("--headed", action="store_true", help="show the browser")
-    sub.add_parser("verify")
+    deliver.add_argument("--day", type=date.fromisoformat, help=day_help)
+    verify = sub.add_parser("verify")
+    verify.add_argument("--day", type=date.fromisoformat, help=day_help)
     notify = sub.add_parser("notify")
     notify.add_argument("--outcome", choices=("success", "failure"), required=True)
     notify.add_argument("--dry-run", action="store_true", help="print instead of sending")

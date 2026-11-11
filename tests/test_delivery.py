@@ -82,3 +82,17 @@ def test_resource_by_id_reads_dataset() -> None:
     assert resource.dataset_id == "16658"
     assert resource.web_url == "https://dane.gov.pl/pl/dataset/16658/resource/2701563"
     assert resource.created.date() == date(2026, 9, 27)
+
+
+def test_day_defaults_to_today_and_rejects_the_future(monkeypatch: pytest.MonkeyPatch) -> None:
+    import argparse
+
+    from danegov import cli
+    from danegov.cli import ConfigError, _day
+
+    monkeypatch.setattr(cli, "_today", lambda: TODAY)
+    assert _day(argparse.Namespace()) == TODAY
+    assert _day(argparse.Namespace(day=None)) == TODAY
+    assert _day(argparse.Namespace(day=date(2026, 9, 27))) == date(2026, 9, 27)
+    with pytest.raises(ConfigError):
+        _day(argparse.Namespace(day=date(2026, 9, 29)))

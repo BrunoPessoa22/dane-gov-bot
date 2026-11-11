@@ -98,6 +98,7 @@ stops the browser uploads.
 | Run now | Actions → *Daily dane.gov.pl publication* → Run workflow |
 | Re-publish today after fixing the website | same, with **force** ticked |
 | Secrets | `DANE_GOV_EMAIL`, `DANE_GOV_PASSWORD` (admin login), `RESEND_API_KEY`, `NOTIFY_EMAILS` (comma-separated), `DANE_GOV_PROXY` (optional, see below) |
+| Publish a missed day | Run workflow with **day** = `YYYY-MM-DD` (that day's file must already be built) |
 | Variables | `DELIVERY_MODE` = `auto` (default), `bot` or `harvester` |
 | Published files | https://brunopessoa22.github.io/dane-gov-bot/ (never rename the repository: the harvester URLs depend on it) |
 
